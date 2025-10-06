@@ -1,5 +1,7 @@
 "use client";
 
+
+
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -69,25 +71,15 @@ export default function Home() {
     formData.append("businessName", values.businessName);
     formData.append("location", values.location);
     formData.append("websiteUrl", values.website);
-    if (values.logo) {
-      formData.append("logo", values.logo);
-    }
     formData.append("email", values.mailId);
-    formData.append("contactPersonName", values.contactPerson);
-    values.businessImages.forEach((file) => {
-      formData.append("businessImages", file);
-    });
-    formData.append("faceBookUrl", values.facebook);
-    formData.append("instagramUrl", values.instagram);
-    formData.append("linkedInUrl", values.linkedin);
     formData.append("tenantId", tenantId);
-    
+
     if (values.whatsapp) {
       try {
         const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
         formData.append("countryCode", `+${phoneNumber.countryCallingCode}`);
         formData.append("whatsAppNo", phoneNumber.nationalNumber);
-      } catch (error) {
+      } catch  {
         formData.append("whatsAppNo", values.whatsapp);
       }
     }

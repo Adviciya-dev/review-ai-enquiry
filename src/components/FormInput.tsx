@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useField, FieldHookConfig } from "formik";
+import { useField } from "formik";
 import { Upload } from "lucide-react";
 
 interface Props {
