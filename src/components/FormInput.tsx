@@ -13,7 +13,7 @@ interface Props {
     multiple?: boolean;
 }
 
-const FormInput: React.FC<Props> = ({ label,  type = "text", multiple, accept, placeholder, name }) => {
+const FormInput: React.FC<Props> = ({ label,type = "text",multiple, accept, placeholder, name }) => {
     const [field, meta, helpers] = useField(name);
 
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -44,6 +44,7 @@ const FormInput: React.FC<Props> = ({ label,  type = "text", multiple, accept, p
                         multiple={multiple}
                         accept={accept}
                         className="hidden"
+                         suppressHydrationWarning
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             if (!e.target.files || e.target.files.length === 0) return;
 
@@ -84,6 +85,8 @@ const FormInput: React.FC<Props> = ({ label,  type = "text", multiple, accept, p
                     placeholder={placeholder}
                     className={`w-full px-3 py-2 border rounded-md h-[42px] focus:outline-none ${isError ? "border-red-500" : "border-gray-500 "
                         }`}
+                   suppressHydrationWarning
+                        
                 />
             )}
 
