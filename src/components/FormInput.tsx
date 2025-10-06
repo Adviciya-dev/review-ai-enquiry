@@ -13,7 +13,7 @@ interface Props {
     multiple?: boolean;
 }
 
-const FormInput: React.FC<Props> = ({ label, type, multiple, accept, placeholder, name }) => {
+const FormInput: React.FC<Props> = ({ label,  type = "text", multiple, accept, placeholder, name }) => {
     const [field, meta, helpers] = useField(name);
 
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -23,6 +23,8 @@ const FormInput: React.FC<Props> = ({ label, type, multiple, accept, placeholder
     const handleFileClick = () => {
         fileInputRef.current?.click();
     };
+
+
 
 
 
