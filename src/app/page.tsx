@@ -8,8 +8,11 @@ import Banner from "@/components/Banner";
 import PhoneInput from "@/components/PhoneInput";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
-
+import { parsePhoneNumberWithError  } from 'libphonenumber-js';
+import { useSearchParams } from "next/navigation";
 export default function Home() {
+  const searchParams = useSearchParams();
+  const tenantId = searchParams.get("tenantId") || "1";
   const bannerImages = ["/Mask group.png", "/Mask group (2).png", "/Mask group (1).png"];
 
   const mutation = useMutation({
@@ -46,6 +49,8 @@ export default function Home() {
     businessName: Yup.string().required("Business Name is required"),
     location: Yup.string().required("Location is required"),
     mailId: Yup.string().email("Invalid email").required("Mail ID is required"),
+    website:Yup.string().required("Website url is required"),
+    whatsapp: Yup.string().required("WhatsApp number is required"),
   });
 
   const handleSubmit = (
@@ -62,7 +67,7 @@ export default function Home() {
       formData.append("logo", values.logo);
     }
     formData.append("email", values.mailId);
-    formData.append("whatsAppNo", values.whatsapp);
+    // formData.append("whatsAppNo", values.whatsapp);
     formData.append("contactPersonName", values.contactPerson);
     values.businessImages.forEach((file) => {
       formData.append("businessImages", file);
@@ -70,7 +75,16 @@ export default function Home() {
     formData.append("faceBookUrl", values.facebook);
     formData.append("instagramUrl", values.instagram);
     formData.append("linkedInUrl", values.linkedin);
-    formData.append("tenantId", "1");
+    formData.append("tenantId", tenantId);
+    if (values.whatsapp) {
+    try {
+      const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
+      formData.append("countryCode", `+${phoneNumber.countryCallingCode}`);
+      formData.append("whatsAppNo", phoneNumber.nationalNumber);
+    } catch (error) {
+      formData.append("whatsAppNo", values.whatsapp);
+    }
+  }
   
     mutation.mutate(formData, {
       onSuccess: (data) => {
@@ -102,7 +116,7 @@ export default function Home() {
       {/* Form Section */}
       <section className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 sm:p-8">
-          <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">Business Form</h2>
+          {/* <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">Business Form</h2> */}
 
           <Formik
             initialValues={initialValues}
@@ -115,20 +129,20 @@ export default function Home() {
                   <FormInput label="Business Name" name="businessName" placeholder="Enter name" />
                   <FormInput label="Location" name="location" placeholder="Enter location" />
                   <FormInput label="Website URL" name="website" placeholder="https://example.com" />
-                  <FormInput label="Logo" name="logo" type="file" />
+                  {/* <FormInput label="Logo" name="logo" type="file" /> */}
                   <FormInput label="Mail ID" name="mailId" placeholder="example@mail.com" />
                   <PhoneInput label="WhatsApp Number" name="whatsapp" defaultCountry="in" />
-                  <FormInput label="Contact Person Name" name="contactPerson" placeholder="Name" />
+                  {/* <FormInput label="Contact Person Name" name="contactPerson" placeholder="Name" /> */}
 
-                  <FormInput
+                  {/* <FormInput
                     label="Business Image Library"
                     name="businessImages"
                     type="file"
                     multiple
-                  />
-                  <FormInput label="Facebook URL" name="facebook" placeholder="https://facebook.com" />
+                  /> */}
+                  {/* <FormInput label="Facebook URL" name="facebook" placeholder="https://facebook.com" />
                   <FormInput label="Instagram URL" name="instagram" placeholder="https://instagram.com" />
-                  <FormInput label="LinkedIn URL" name="linkedin" placeholder="https://linkedin.com" />
+                  <FormInput label="LinkedIn URL" name="linkedin" placeholder="https://linkedin.com" /> */}
 
                   <div className="col-span-1 sm:col-span-2">
                     <button
