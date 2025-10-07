@@ -26,7 +26,7 @@ export default function FormComponent() {
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      const response = await fetch(`${apiUrl}leads/public-lead`, {
+      const response = await fetch(`${apiUrl}/leads/public-lead`, {
         method: "POST",
         body: formData,
       });
