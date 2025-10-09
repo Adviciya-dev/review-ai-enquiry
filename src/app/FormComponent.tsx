@@ -28,7 +28,7 @@ export default function FormComponent() {
 
 
 
-  
+
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -96,7 +96,7 @@ export default function FormComponent() {
     mutation.mutate(formData, {
       onSuccess: (data) => {
         console.log("Form submitted successfully:", data);
-        
+
         toast.success("Form submitted successfully!", {
           duration: 4000,
           position: "top-right",
@@ -114,18 +114,18 @@ export default function FormComponent() {
     });
   };
 
-//    const FetchLeads = async (params: {}, id?: string | null) => {
-//     const endpoint = id ? `leads/${id}` : "leads";
-//     const response = await apiRequest(
-//          "https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/",
-//         'get',
-//         endpoint,
-//         null,
-//         params
-//     );
+  //    const FetchLeads = async (params: {}, id?: string | null) => {
+  //     const endpoint = id ? `leads/${id}` : "leads";
+  //     const response = await apiRequest(
+  //          "https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/",
+  //         'get',
+  //         endpoint,
+  //         null,
+  //         params
+  //     );
 
-//     return response?.data || [];
-// };
+  //     return response?.data || [];
+  // };
 
   //   const {
   //   data: LeadsList,
@@ -138,7 +138,7 @@ export default function FormComponent() {
       <Toaster />
       <Banner images={bannerImages} />
 
-      <section 
+      <section
         className="flex-1 flex items-center justify-center bg-black px-4 py-10"
       >
 
