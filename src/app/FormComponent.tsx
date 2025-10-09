@@ -12,16 +12,23 @@ import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { parsePhoneNumberWithError } from 'libphonenumber-js';
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 
 export default function FormComponent() {
   const searchParams = useSearchParams();
-  const [isMounted, setIsMounted] = React.useState(false);
+  const router = useRouter();
+  // const [isMounted, setIsMounted] = React.useState(false);
   const tenantId = searchParams.get("tenantId") || "1";
   const bannerImages = ["/Mask group.png", "/Mask group (2).png", "/Mask group (1).png"];
 
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // React.useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);     
+
+
+
+
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -80,18 +87,21 @@ export default function FormComponent() {
         const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
         formData.append("countryCode", `+${phoneNumber.countryCallingCode}`);
         formData.append("whatsAppNo", phoneNumber.nationalNumber);
-      } catch  {
+      } catch {
         formData.append("whatsAppNo", values.whatsapp);
       }
     }
+    //  router.push("/congratulations");
 
     mutation.mutate(formData, {
       onSuccess: (data) => {
         console.log("Form submitted successfully:", data);
+
         toast.success("Form submitted successfully!", {
           duration: 4000,
           position: "top-right",
         });
+        router.push("/congratulations");
         resetForm();
       },
       onError: (error: Error) => {
@@ -104,13 +114,40 @@ export default function FormComponent() {
     });
   };
 
+  //    const FetchLeads = async (params: {}, id?: string | null) => {
+  //     const endpoint = id ? `leads/${id}` : "leads";
+  //     const response = await apiRequest(
+  //          "https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/",
+  //         'get',
+  //         endpoint,
+  //         null,
+  //         params
+  //     );
+
+  //     return response?.data || [];
+  // };
+
+  //   const {
+  //   data: LeadsList,
+  //   isLoading,
+
+  // } = useCustomQuery(["LeadsList"], FetchLeads,);
+
   return (
     <main className="flex flex-col min-h-screen bg-gray-50">
       <Toaster />
       <Banner images={bannerImages} />
 
-      <section className="flex-1 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 sm:p-8">
+      <section
+        className="flex-1 flex items-center justify-center bg-black px-4 py-10"
+      >
+
+        <div className="w-full max-w-2xl p-6 sm:p-8 ">
+
+          <div className="mb-6 text-center">
+            <p className="text-white text-lg font-semibold">Don’t wait for the Future, Own it Today</p>
+            <p className="text-white text-xl font-medium mt-2">Unlock ReviuAI for FREE</p>
+          </div>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -129,7 +166,7 @@ export default function FormComponent() {
                     type="submit"
                     disabled={mutation.isPending}
                     suppressHydrationWarning
-                    className="w-full bg-black text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-800 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="w-40 bg-[#F43C3C] text-white font-medium py-2 px-4 rounded-full hover:bg-gray-800 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
                   >
                     {mutation.isPending ? (
                       <>
@@ -153,10 +190,10 @@ export default function FormComponent() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           ></path>
                         </svg>
-                        Submitting...
+                        Loading...
                       </>
                     ) : (
-                      'Submit'
+                      'Unlock ReviuAI'
                     )}
                   </button>
                 </div>
@@ -166,9 +203,10 @@ export default function FormComponent() {
         </div>
       </section>
 
-      <footer className="w-full bg-gray-800 text-gray-300 py-6 text-center" suppressHydrationWarning>
+      <footer className="w-full bg-[#252525] text-[#969696] py-6 text-center" suppressHydrationWarning>
         <p className="text-sm" suppressHydrationWarning>
-          © {isMounted ? new Date().getFullYear() : '2024'} My Business Platform. All rights reserved.
+          {/* © {isMounted ? new Date().getFullYear() : '2024'} My Business Platform. All rights reserved. */}
+          copyrigt@2025, www.adviciya.com
         </p>
       </footer>
     </main>
