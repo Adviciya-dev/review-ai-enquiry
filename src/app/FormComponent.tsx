@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 export default function FormComponent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   const tenantId = searchParams.get("tenantId") || "1";
   const bannerImages = ["/Mask group.png", "/Mask group (2).png", "/Mask group (1).png"];
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
@@ -34,12 +34,12 @@ export default function FormComponent() {
     mutationFn: async (formData: FormData) => {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiUrl}/leads/public-lead`, {
-        method: "POST",
+        method: "get",
         headers: {
-        Authorization: `Bearer ${token}`, 
-      },
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
-        
+
       });
 
       if (!response.ok) {
@@ -73,50 +73,62 @@ export default function FormComponent() {
     whatsapp: Yup.string().required("WhatsApp number is required"),
   });
 
-  const handleSubmit = (
-    values: typeof initialValues,
-    { resetForm }: { resetForm: () => void }
-  ) => {
-    console.log(values);
+ 
 
-    const formData = new FormData();
-    formData.append("businessName", values.businessName);
-    formData.append("location", values.location);
-    formData.append("websiteUrl", values.website);
-    formData.append("email", values.mailId);
-    formData.append("tenantId", tenantId);
+  const handleSubmit = async (
+  values: typeof initialValues,
+  { resetForm }: { resetForm: () => void }
+) => {
+  console.log(values);
 
-    if (values.whatsapp) {
-      try {
-        const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
-        formData.append("countryCode", `+${phoneNumber.countryCallingCode}`);
-        formData.append("whatsAppNo", phoneNumber.nationalNumber);
-      } catch {
-        formData.append("whatsAppNo", values.whatsapp);
-      }
+  const formData = new FormData();
+  formData.append("businessName", values.businessName);
+  formData.append("location", values.location);
+  formData.append("websiteUrl", values.website);
+  formData.append("email", values.mailId);
+  formData.append("tenantId", tenantId);
+
+  if (values.whatsapp) {
+    try {
+      const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
+      formData.append("countryCode", `+${phoneNumber.countryCallingCode}`);
+      formData.append("whatsAppNo", phoneNumber.nationalNumber);
+    } catch {
+      formData.append("whatsAppNo", values.whatsapp);
     }
-    //  router.push("/congratulations");
+  }
 
-    mutation.mutate(formData, {
-      onSuccess: (data) => {
-        console.log("Form submitted successfully:", data);
-
-        toast.success("Form submitted successfully!", {
-          duration: 4000,
-          position: "top-right",
-        });
-        router.push("/congratulations");
-        resetForm();
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL; // your base API URL
+    const response = await fetch(`${apiUrl}/leads/public-lead`, {
+      method: "put", // ✅ must be POST, not GET
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ add your JWT token
+        // No Content-Type header here — browser sets it automatically for FormData
       },
-      onError: (error: Error) => {
-        console.error("Form submission error:", error);
-        toast.error(error.message || "Failed to submit form", {
-          duration: 4000,
-          position: "top-right",
-        });
-      },
+      body: formData,
     });
-  };
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to create lead");
+    }
+
+    const data = await response.json();
+    console.log("Lead posted successfully:", data);
+    toast.success("Lead posted successfully!");
+    resetForm(); // ✅ reset after success
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error posting lead:", error);
+      toast.error(error.message || "Failed to post lead");
+    } else {
+      console.error("Unknown error posting lead:", error);
+      toast.error("Failed to post lead");
+    }
+  }
+};
+
 
   //    const FetchLeads = async (params: {}, id?: string | null) => {
   //     const endpoint = id ? `leads/${id}` : "leads";
@@ -229,14 +241,14 @@ export default function FormComponent() {
       console.log("Lead posted successfully:", data);
       toast.success("Lead posted successfully!");
     } catch (error: unknown) {
-  if (error instanceof Error) {
-    console.error("Error posting lead:", error);
-    toast.error(error.message || "Failed to post lead");
-  } else {
-    console.error("Unknown error posting lead:", error);
-    toast.error("Failed to post lead");
-  }
-}
+      if (error instanceof Error) {
+        console.error("Error posting lead:", error);
+        toast.error(error.message || "Failed to post lead");
+      } else {
+        console.error("Unknown error posting lead:", error);
+        toast.error("Failed to post lead");
+      }
+    }
   };
 
 
