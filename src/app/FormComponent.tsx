@@ -75,59 +75,65 @@ export default function FormComponent() {
 
  
 
-  const handleSubmit = async (
+const handleSubmit = async (
   values: typeof initialValues,
   { resetForm }: { resetForm: () => void }
 ) => {
-  console.log(values);
-
-  const formData = new FormData();
-  formData.append("businessName", values.businessName);
-  formData.append("location", values.location);
-  formData.append("websiteUrl", values.website);
-  formData.append("email", values.mailId);
-  formData.append("tenantId", tenantId);
-
-  if (values.whatsapp) {
-    try {
-      const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
-      formData.append("countryCode", `+${phoneNumber.countryCallingCode}`);
-      formData.append("whatsAppNo", phoneNumber.nationalNumber);
-    } catch {
-      formData.append("whatsAppNo", values.whatsapp);
-    }
-  }
-
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL; // your base API URL
-    const response = await fetch(`${apiUrl}/leads/public-lead`, {
-      method: "put", // ✅ must be POST, not GET
+    // Build query parameters
+    const params = new URLSearchParams();
+
+    params.append("businessName", values.businessName);
+    params.append("location", values.location);
+    params.append("websiteUrl", values.website);
+    params.append("email", values.mailId);
+    params.append("tenantId", tenantId);
+
+    if (values.whatsapp) {
+      try {
+        const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
+        params.append("countryCode", `+${phoneNumber.countryCallingCode}`);
+        params.append("whatsAppNo", phoneNumber.nationalNumber);
+      } catch {
+        params.append("whatsAppNo", values.whatsapp);
+      }
+    }
+
+    // Build the full URL
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const url = `${apiUrl}/leads/public-lead-get?${params.toString()}`;
+
+    // Make the GET request
+    const response = await fetch(url, {
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`, // ✅ add your JWT token
-        // No Content-Type header here — browser sets it automatically for FormData
+        Authorization: `Bearer ${token}`, // optional if required
       },
-      body: formData,
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to create lead");
+      const error = await response.json();
+      throw new Error(error.message || "Failed to create lead");
     }
 
     const data = await response.json();
-    console.log("Lead posted successfully:", data);
-    toast.success("Lead posted successfully!");
-    resetForm(); // ✅ reset after success
+    console.log("Lead fetched successfully:", data);
+    toast.success("Lead fetched successfully!");
+
+    resetForm();
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Error posting lead:", error);
-      toast.error(error.message || "Failed to post lead");
+      console.error("Error fetching lead:", error);
+      toast.error(error.message || "Failed to fetch lead");
     } else {
-      console.error("Unknown error posting lead:", error);
-      toast.error("Failed to post lead");
+      console.error("Unknown error fetching lead:", error);
+      toast.error("Failed to fetch lead");
     }
   }
 };
+
+
+
 
 
   //    const FetchLeads = async (params: {}, id?: string | null) => {
@@ -211,45 +217,47 @@ export default function FormComponent() {
     fetchData();
   }, []);
 
-  const handleLeadPost = async () => {
-    const body = {
-      businessName: "ABTESTC BUSINESS",
-      stage: "PENDING",
-      location: "new",
-      // categoryId: "2c05bca9-76ef-445c-b7fc-a9862654ac38",
-      // tenantId:1
-    };
+  // const handleLeadPost = async () => {
+  //   const body = {
+  //     businessName: "ABTESTC BUSINESS",
+  //     stage: "PENDING",
+  //     location: "new",
+  //     // categoryId: "2c05bca9-76ef-445c-b7fc-a9862654ac38",
+  //     // tenantId:1
+  //   };
 
-    try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL; // or your full URL
-      const response = await fetch(`${apiUrl}/leads`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // add Authorization if needed
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
+  //   try {
+  //     const apiUrl = process.env.NEXT_PUBLIC_API_URL; // or your full URL
+  //     const response = await fetch(`${apiUrl}/leads`, {
+  //       method: "get",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         // add Authorization if needed
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(body),
+  //     });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to create lead");
-      }
+  //     if (!response.ok) {
+  //       const error = await response.json();
+  //       throw new Error(error.message || "Failed to create lead");
+  //     }
 
-      const data = await response.json();
-      console.log("Lead posted successfully:", data);
-      toast.success("Lead posted successfully!");
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error posting lead:", error);
-        toast.error(error.message || "Failed to post lead");
-      } else {
-        console.error("Unknown error posting lead:", error);
-        toast.error("Failed to post lead");
-      }
-    }
-  };
+  //     const data = await response.json();
+  //     console.log("Lead posted successfully:", data);
+  //     toast.success("Lead posted successfully!");
+  //   } catch (error: unknown) {
+  //     if (error instanceof Error) {
+  //       console.error("Error posting lead:", error);
+  //       toast.error(error.message || "Failed to post lead");
+  //     } else {
+  //       console.error("Unknown error posting lead:", error);
+  //       toast.error("Failed to post lead");
+  //     }
+  //   }
+  // };
+
+  
 
 
   console.log(questions);
@@ -283,13 +291,13 @@ export default function FormComponent() {
             {() => (
               <Form className="grid grid-cols-1 sm:grid-cols-2 gap-4" suppressHydrationWarning>
 
-                <button
+                {/* <button
                   type="button"
                   className="text-white bg-red-600 py-2 px-4 rounded hover:bg-red-700"
                   onClick={handleLeadPost}
                 >
                   Lead Post
-                </button>
+                </button> */}
                 <FormInput label="Business Name" name="businessName" placeholder="Enter name" />
                 <FormInput label="Location" name="location" placeholder="Enter location" />
                 <FormInput label="Website URL" name="website" placeholder="https://example.com" />
