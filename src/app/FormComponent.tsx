@@ -2,7 +2,7 @@
 
 
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormInput from "@/components/FormInput";
@@ -132,6 +132,77 @@ export default function FormComponent() {
   //   isLoading,
 
   // } = useCustomQuery(["LeadsList"], FetchLeads,);
+
+interface Question {
+  id: number;
+  question: string;
+  // add other fields returned by the API
+}
+
+interface Lead {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  // add other fields returned by the API
+}
+
+
+const [questions, setQuestions] = useState<Question[]>([]);
+const [leads, setLeads] = useState<Lead[]>([]);
+
+  const [loading, setLoading] = useState(true);
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [questionsRes, leadsRes] = await Promise.all([
+          fetch("https://qg1c9n6uv2.execute-api.ap-south-1.amazonaws.com/dev/delivery-questions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}), // include request body if required
+          }),
+          fetch("https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/leads", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // ✅ pass JWT token here
+            },
+          }),
+        ]);
+
+        if (!questionsRes.ok || !leadsRes.ok) {
+          throw new Error("Failed to fetch one or both APIs");
+        }
+
+        const [questionsData, leadsData] = await Promise.all([
+          questionsRes.json(),
+          leadsRes.json(),
+        ]);
+
+        setQuestions(questionsData);
+        setLeads(leadsData);
+      } catch (err) {
+        console.error("Error fetching:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  console.log(questions);
+  console.log(leads);
+  console.log(loading);
+  
+  
+  
+
 
   return (
     <main className="flex flex-col min-h-screen bg-gray-50">
