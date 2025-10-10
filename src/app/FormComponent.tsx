@@ -18,10 +18,10 @@ import { useRouter } from "next/navigation";
 export default function FormComponent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  // const [isMounted, setIsMounted] = React.useState(false);
+  
   const tenantId = searchParams.get("tenantId") || "1";
   const bannerImages = ["/Mask group.png", "/Mask group (2).png", "/Mask group (1).png"];
-
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
   // React.useEffect(() => {
   //   setIsMounted(true);
   // }, []);     
@@ -35,7 +35,11 @@ export default function FormComponent() {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiUrl}/leads/public-lead`, {
         method: "POST",
+        headers: {
+        Authorization: `Bearer ${token}`, 
+      },
         body: formData,
+        
       });
 
       if (!response.ok) {
@@ -133,27 +137,26 @@ export default function FormComponent() {
 
   // } = useCustomQuery(["LeadsList"], FetchLeads,);
 
-interface Question {
-  id: number;
-  question: string;
-  // add other fields returned by the API
-}
+  interface Question {
+    id: number;
+    question: string;
+    // add other fields returned by the API
+  }
 
-interface Lead {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  // add other fields returned by the API
-}
+  interface Lead {
+    id: number;
+    name: string;
+    phone: string;
+    email: string;
+    // add other fields returned by the API
+  }
 
 
-const [questions, setQuestions] = useState<Question[]>([]);
-const [leads, setLeads] = useState<Lead[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
 
   const [loading, setLoading] = useState(true);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
+
 
   useEffect(() => {
     async function fetchData() {
@@ -196,12 +199,53 @@ const [leads, setLeads] = useState<Lead[]>([]);
     fetchData();
   }, []);
 
+  const handleLeadPost = async () => {
+    const body = {
+      businessName: "ABTESTC BUSINESS",
+      stage: "PENDING",
+      location: "new",
+      // categoryId: "2c05bca9-76ef-445c-b7fc-a9862654ac38",
+      // tenantId:1
+    };
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL; // or your full URL
+      const response = await fetch(`${apiUrl}/leads`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // add Authorization if needed
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create lead");
+      }
+
+      const data = await response.json();
+      console.log("Lead posted successfully:", data);
+      toast.success("Lead posted successfully!");
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error("Error posting lead:", error);
+    toast.error(error.message || "Failed to post lead");
+  } else {
+    console.error("Unknown error posting lead:", error);
+    toast.error("Failed to post lead");
+  }
+}
+  };
+
+
   console.log(questions);
   console.log(leads);
   console.log(loading);
-  
-  
-  
+
+
+
 
 
   return (
@@ -226,6 +270,14 @@ const [leads, setLeads] = useState<Lead[]>([]);
           >
             {() => (
               <Form className="grid grid-cols-1 sm:grid-cols-2 gap-4" suppressHydrationWarning>
+
+                <button
+                  type="button"
+                  className="text-white bg-red-600 py-2 px-4 rounded hover:bg-red-700"
+                  onClick={handleLeadPost}
+                >
+                  Lead Post
+                </button>
                 <FormInput label="Business Name" name="businessName" placeholder="Enter name" />
                 <FormInput label="Location" name="location" placeholder="Enter location" />
                 <FormInput label="Website URL" name="website" placeholder="https://example.com" />
