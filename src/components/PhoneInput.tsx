@@ -38,7 +38,7 @@ const PhoneInput: React.FC<Props> = ({ label, name, defaultCountry = "in" }) => 
       ) : (
         <div suppressHydrationWarning>
           <ReactPhoneInput
-            country={defaultCountry}
+            country="ae"
             value={field.value}
             onChange={(value) => helpers.setValue(value)}
             onBlur={() => helpers.setTouched(true)}
