@@ -1,35 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormInput from "@/components/FormInput";
-import Banner from "@/components/Banner";
 import PhoneInput from "@/components/PhoneInput";
-import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { parsePhoneNumberWithError } from "libphonenumber-js";
-import { useSearchParams } from "next/navigation";
+
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function FormComponent() {
-    const searchParams = useSearchParams();
+
     const router = useRouter();
 
-    const tenantId = searchParams.get("tenantId") || "1";
-    const bannerImages = [
-        "/Mask group.png",
-        "/Mask group (2).png",
-        "/Mask group (1).png",
-    ];
+    const tenantId = "1";
+    const [loading, setLoading] = useState(false)
+
     const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
-    // React.useEffect(() => {
-    //   setIsMounted(true);
-    // }, []);
 
-    const [loading, setLoading] = useState(false)
+
+
+
+
 
 
 
