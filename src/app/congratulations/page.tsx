@@ -1,52 +1,28 @@
-"use client";
-
 import React from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Italianno } from "next/font/google";
+import HeroSection from "@/components/congratulations/HeroSection";
+import WhatIsReviuAI from "@/components/congratulations/WhatIsReviuAI";
+import ReviewsSection from "@/components/congratulations/ReviewsSection";
+import HowToReviewSection from "@/components/congratulations/HowToReviewSection";
+import CtaBanner from "@/components/congratulations/CtaBanner";
+import WhoWeAre from "@/components/congratulations/WhoWeAre";
+import NewLaunchesSection from "@/components/congratulations/NewLaunchesSection";
+import ClientsSection from "@/components/congratulations/ClientsSection";
+import FooterSection from "@/components/congratulations/FooterSection";
+import Header from "@/components/congratulations/Header";
 
-// Load Italianno font for heading
-const italianno = Italianno({ subsets: ['latin'], weight: '400' });
-
-export default function CongratulationsPage() {
+export default function LandingPage() {
   return (
-    <motion.div
-      className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-4"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      <motion.h1
-        className={`${italianno.className} text-6xl mb-6`}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-      >
-        Congratulations!
-      </motion.h1>
-
-      <motion.p
-        className="text-[16px] font-inter italic font-medium leading-[100%] tracking-[0%] text-center mb-6 px-4"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-      >
-        Thank you for choosing ReviuAI. <br />
-        We will notify via WhatsApp & Email once the account is ready
-      </motion.p>
-
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
-      >
-        <Link
-          href="/"
-          className="bg-[#F43C3C] text-black px-6 py-3 rounded-full hover:bg-gray-300 transition font-medium"
-        >
-          Back to Home
-        </Link>
-      </motion.div>
-    </motion.div>
+    <main className="min-h-screen relative bg-black text-white">
+      <Header />
+      <HeroSection />
+      <WhatIsReviuAI />
+      <ReviewsSection />
+      <HowToReviewSection />
+      <CtaBanner />
+      <WhoWeAre />
+      <NewLaunchesSection />
+      <ClientsSection />
+      <FooterSection />
+    </main>
   );
 }

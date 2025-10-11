@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -10,25 +8,25 @@ import Banner from "@/components/Banner";
 import PhoneInput from "@/components/PhoneInput";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
-import { parsePhoneNumberWithError } from 'libphonenumber-js';
+import { parsePhoneNumberWithError } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-
 
 export default function FormComponent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const tenantId = searchParams.get("tenantId") || "1";
-  const bannerImages = ["/Mask group.png", "/Mask group (2).png", "/Mask group (1).png"];
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
+  const bannerImages = [
+    "/Mask group.png",
+    "/Mask group (2).png",
+    "/Mask group (1).png",
+  ];
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImdsb2JhbFVzZXJJZCI6MSwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InRlc3QtYWRtaW4tb3JnLTEiLCJyb2xlSWQiOiJjNTIzMmY2NC1hNmMwLTQ5ZjktODRkYi1jYjJkOThjODYxNTAiLCJyb2xlIjoiQURNSU4iLCJ0ZW5hbnRJZCI6MSwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE3NTg2OTI2NTMsImV4cCI6MTc2Mzg3NjY1M30.PiXNEkNj-Jz2U_opIVMCB06TOF_LTghQYK8mEk4-ybw";
   // React.useEffect(() => {
   //   setIsMounted(true);
-  // }, []);     
-
-
-
-
+  // }, []);
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -39,7 +37,6 @@ export default function FormComponent() {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
-
       });
 
       if (!response.ok) {
@@ -73,68 +70,64 @@ export default function FormComponent() {
     whatsapp: Yup.string().required("WhatsApp number is required"),
   });
 
- 
+  const handleSubmit = async (
+    values: typeof initialValues,
+    { resetForm }: { resetForm: () => void }
+  ) => {
+    try {
+      // Build query parameters
+      const params = new URLSearchParams();
 
-const handleSubmit = async (
-  values: typeof initialValues,
-  { resetForm }: { resetForm: () => void }
-) => {
-  try {
-    // Build query parameters
-    const params = new URLSearchParams();
+      params.append("businessName", values.businessName);
+      params.append("location", values.location);
+      params.append("websiteUrl", values.website);
+      params.append("email", values.mailId);
+      params.append("tenantId", tenantId);
 
-    params.append("businessName", values.businessName);
-    params.append("location", values.location);
-    params.append("websiteUrl", values.website);
-    params.append("email", values.mailId);
-    params.append("tenantId", tenantId);
+      if (values.whatsapp) {
+        try {
+          const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
+          params.append("countryCode", `+${phoneNumber.countryCallingCode}`);
+          params.append("whatsAppNo", phoneNumber.nationalNumber);
+        } catch {
+          params.append("whatsAppNo", values.whatsapp);
+        }
+      }
 
-    if (values.whatsapp) {
-      try {
-        const phoneNumber = parsePhoneNumberWithError(`+${values.whatsapp}`);
-        params.append("countryCode", `+${phoneNumber.countryCallingCode}`);
-        params.append("whatsAppNo", phoneNumber.nationalNumber);
-      } catch {
-        params.append("whatsAppNo", values.whatsapp);
+      // Build the full URL
+      const apiUrl =
+        "https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/";
+      // https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/leads/public-lead-get?businessName=test-business&location=calicut&whatsAppNo=9539429274&countryCode=+91&email=test@gmail.com&websiteUrl=www.google.com&tenantId=1
+      const url = `${apiUrl}/leads/public-lead-get?${params.toString()}`;
+
+      // Make the GET request
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`, // optional if required
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create lead");
+      }
+
+      const data = await response.json();
+      toast.success("Lead Submitted Successfully!");
+
+      resetForm();
+      router.push("/congratulations");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error fetching lead:", error);
+        toast.error(error.message || "Failed to fetch lead");
+      } else {
+        console.error("Unknown error fetching lead:", error);
+        toast.error("Failed to fetch lead");
       }
     }
-
-    // Build the full URL
-    const apiUrl = 'https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/';
-    // https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/leads/public-lead-get?businessName=test-business&location=calicut&whatsAppNo=9539429274&countryCode=+91&email=test@gmail.com&websiteUrl=www.google.com&tenantId=1
-    const url = `${apiUrl}/leads/public-lead-get?${params.toString()}`;
-
-    // Make the GET request
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`, // optional if required
-      },
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to create lead");
-    }
-
-    const data = await response.json();
-    toast.success("Lead Submitted Successfully!");
-
-    resetForm();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error fetching lead:", error);
-      toast.error(error.message || "Failed to fetch lead");
-    } else {
-      console.error("Unknown error fetching lead:", error);
-      toast.error("Failed to fetch lead");
-    }
-  }
-};
-
-
-
-
+  };
 
   //    const FetchLeads = async (params: {}, id?: string | null) => {
   //     const endpoint = id ? `leads/${id}` : "leads";
@@ -169,31 +162,35 @@ const handleSubmit = async (
     // add other fields returned by the API
   }
 
-
   const [questions, setQuestions] = useState<Question[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
 
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     async function fetchData() {
       try {
         const [questionsRes, leadsRes] = await Promise.all([
-          fetch("https://qg1c9n6uv2.execute-api.ap-south-1.amazonaws.com/dev/delivery-questions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}), // include request body if required
-          }),
-          fetch("https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/leads", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // ✅ pass JWT token here
-            },
-          }),
+          fetch(
+            "https://qg1c9n6uv2.execute-api.ap-south-1.amazonaws.com/dev/delivery-questions",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({}), // include request body if required
+            }
+          ),
+          fetch(
+            "https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/leads",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // ✅ pass JWT token here
+              },
+            }
+          ),
         ]);
 
         if (!questionsRes.ok || !leadsRes.ok) {
@@ -217,7 +214,7 @@ const handleSubmit = async (
     fetchData();
   }, []);
 
- /* The above code is a TypeScript React function that is meant to handle posting a lead to an API
+  /* The above code is a TypeScript React function that is meant to handle posting a lead to an API
  endpoint. However, the function `handleLeadPost` is currently commented out, so it is not actively
  being executed. */
   const handleLeadPost = async () => {
@@ -260,31 +257,24 @@ const handleSubmit = async (
     }
   };
 
-  
-
-
   console.log(questions);
   console.log(leads);
   console.log(loading);
-
-
-
-
 
   return (
     <main className="flex flex-col min-h-screen bg-gray-50">
       <Toaster />
       <Banner images={bannerImages} />
 
-      <section
-        className="flex-1 flex items-center justify-center bg-black px-4 py-10"
-      >
-
+      <section className="flex-1 flex items-center justify-center bg-black px-4 py-10">
         <div className="w-full max-w-2xl p-6 sm:p-8 ">
-
           <div className="mb-6 text-center">
-            <p className="text-white text-lg font-semibold">Don’t wait for the Future, Own it Today</p>
-            <p className="text-white text-xl font-medium mt-2">Unlock ReviuAI for FREE</p>
+            <p className="text-white text-lg font-semibold">
+              Don’t wait for the Future, Own it Today
+            </p>
+            <p className="text-white text-xl font-medium mt-2">
+              Unlock ReviuAI for FREE
+            </p>
           </div>
           <Formik
             initialValues={initialValues}
@@ -292,8 +282,10 @@ const handleSubmit = async (
             onSubmit={handleSubmit}
           >
             {() => (
-              <Form className="grid grid-cols-1 sm:grid-cols-2 gap-4" suppressHydrationWarning>
-
+              <Form
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                suppressHydrationWarning
+              >
                 {/* <button
                   type="button"
                   className="text-white bg-red-600 py-2 px-4 rounded hover:bg-red-700"
@@ -301,11 +293,31 @@ const handleSubmit = async (
                 >
                   Lead Post
                 </button> */}
-                <FormInput label="Business Name" name="businessName" placeholder="Enter name" />
-                <FormInput label="Location" name="location" placeholder="Enter location" />
-                <FormInput label="Website URL" name="website" placeholder="https://example.com" />
-                <FormInput label="Mail ID" name="mailId" placeholder="example@mail.com" />
-                <PhoneInput label="WhatsApp Number" name="whatsapp" defaultCountry="in" />
+                <FormInput
+                  label="Business Name"
+                  name="businessName"
+                  placeholder="Enter name"
+                />
+                <FormInput
+                  label="Location"
+                  name="location"
+                  placeholder="Enter location"
+                />
+                <FormInput
+                  label="Website URL"
+                  name="website"
+                  placeholder="https://example.com"
+                />
+                <FormInput
+                  label="Mail ID"
+                  name="mailId"
+                  placeholder="example@mail.com"
+                />
+                <PhoneInput
+                  label="WhatsApp Number"
+                  name="whatsapp"
+                  defaultCountry="in"
+                />
 
                 <div className="col-span-1 sm:col-span-2">
                   <button
@@ -339,7 +351,7 @@ const handleSubmit = async (
                         Loading...
                       </>
                     ) : (
-                      'Unlock ReviuAI'
+                      "Unlock ReviuAI"
                     )}
                   </button>
                 </div>
@@ -349,7 +361,10 @@ const handleSubmit = async (
         </div>
       </section>
 
-      <footer className="w-full bg-[#252525] text-[#969696] py-6 text-center" suppressHydrationWarning>
+      <footer
+        className="w-full bg-[#252525] text-[#969696] py-6 text-center"
+        suppressHydrationWarning
+      >
         <p className="text-sm" suppressHydrationWarning>
           {/* © {isMounted ? new Date().getFullYear() : '2024'} My Business Platform. All rights reserved. */}
           copyrigt@2025, www.adviciya.com
