@@ -70,6 +70,7 @@ export default function FormComponent() {
     whatsapp: Yup.string().required("WhatsApp number is required"),
   });
 
+
   const handleSubmit = async (
     values: typeof initialValues,
     { resetForm }: { resetForm: () => void }
@@ -195,47 +196,18 @@ export default function FormComponent() {
 
         if (!questionsRes.ok || !leadsRes.ok) {
           throw new Error("Failed to fetch one or both APIs");
+
         }
-
-        const [questionsData, leadsData] = await Promise.all([
-          questionsRes.json(),
-          leadsRes.json(),
-        ]);
-
-        setQuestions(questionsData);
-        setLeads(leadsData);
-      } catch (err) {
-        console.error("Error fetching:", err);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    fetchData();
-  }, []);
 
-  /* The above code is a TypeScript React function that is meant to handle posting a lead to an API
- endpoint. However, the function `handleLeadPost` is currently commented out, so it is not actively
- being executed. */
-  const handleLeadPost = async () => {
-    const body = {
-      businessName: "ABTESTC BUSINESS",
-      stage: "PENDING",
-      location: "new",
-      // categoryId: "2c05bca9-76ef-445c-b7fc-a9862654ac38",
-      // tenantId:1
-    };
 
-    try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL; // or your full URL
-      const response = await fetch(`${apiUrl}/leads`, {
-        method: "get",
+      // Make the GET request
+      const response = await fetch(url, {
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          // add Authorization if needed
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // optional if required
         },
-        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
@@ -244,22 +216,19 @@ export default function FormComponent() {
       }
 
       const data = await response.json();
-      console.log("Lead posted successfully:", data);
-      toast.success("Lead posted successfully!");
+      toast.success("Lead Submitted Successfully!");
+
+      resetForm();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error("Error posting lead:", error);
-        toast.error(error.message || "Failed to post lead");
+        console.error("Error fetching lead:", error);
+        toast.error(error.message || "Failed to fetch lead");
       } else {
-        console.error("Unknown error posting lead:", error);
-        toast.error("Failed to post lead");
+        console.error("Unknown error fetching lead:", error);
+        toast.error("Failed to fetch lead");
       }
     }
   };
-
-  console.log(questions);
-  console.log(leads);
-  console.log(loading);
 
   return (
     <main className="flex flex-col min-h-screen bg-gray-50">
@@ -282,44 +251,13 @@ export default function FormComponent() {
             onSubmit={handleSubmit}
           >
             {() => (
-              <Form
-                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                suppressHydrationWarning
-              >
-                {/* <button
-                  type="button"
-                  className="text-white bg-red-600 py-2 px-4 rounded hover:bg-red-700"
-                  onClick={handleLeadPost}
-                >
-                  Lead Post
-                </button> */}
-                <FormInput
-                  label="Business Name"
-                  name="businessName"
-                  placeholder="Enter name"
-                />
-                <FormInput
-                  label="Location"
-                  name="location"
-                  placeholder="Enter location"
-                />
-                <FormInput
-                  label="Website URL"
-                  name="website"
-                  placeholder="https://example.com"
-                />
-                <FormInput
-                  label="Mail ID"
-                  name="mailId"
-                  placeholder="example@mail.com"
-                />
-                <PhoneInput
-                  label="WhatsApp Number"
-                  name="whatsapp"
-                  defaultCountry="in"
-                />
-
-                <div className="col-span-1 sm:col-span-2">
+              <Form className="grid grid-cols-1 sm:grid-cols-2 gap-4" suppressHydrationWarning>
+                <FormInput label="Business Name" name="businessName" placeholder="Enter name" />
+                <FormInput label="Location" name="location" placeholder="Enter location" />
+                <FormInput label="Website URL" name="website" placeholder="https://example.com" />
+                <FormInput label="Mail ID" name="mailId" placeholder="example@mail.com" />
+                <PhoneInput label="WhatsApp Number" name="whatsapp" defaultCountry="in" />
+                  <div className="col-span-1 sm:col-span-2">
                   <button
                     type="submit"
                     disabled={mutation.isPending}
@@ -354,7 +292,7 @@ export default function FormComponent() {
                       "Unlock ReviuAI"
                     )}
                   </button>
-                </div>
+                  </div>
               </Form>
             )}
           </Formik>
