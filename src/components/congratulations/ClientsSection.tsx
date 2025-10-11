@@ -6,37 +6,37 @@ import { motion } from "framer-motion";
 
 const logos = [
   {
-    src: "/landing/vilvex.png",
+    src: "/congratulations/vilvex.png",
     alt: "Vilvex Cables",
     width: 186,
     height: 62,
   },
   {
-    src: "/landing/gos.jpg",
+    src: "/congratulations/gos.jpg",
     alt: "GOS Services",
     width: 162,
     height: 60,
   },
   {
-    src: "/landing/sanitube.jpg",
+    src: "/congratulations/sanitube.jpg",
     alt: "Sanitube",
     width: 183,
     height: 53,
   },
   {
-    src: "/landing/pimins.png",
+    src: "/congratulations/pimins.png",
     alt: "Pimins.Ai",
     width: 159,
     height: 60,
   },
   {
-    src: "/landing/veda.jpg",
+    src: "/congratulations/veda.jpg",
     alt: "Veda Guru",
     width: 174,
     height: 77,
   },
   {
-    src: "/landing/arabia.png",
+    src: "/congratulations/arabia.png",
     alt: "Pet Arabia",
     width: 174,
     height: 94,

@@ -44,14 +44,14 @@ export default function FooterSection() {
     <section className="bg-[#2D2D2D] text-white pt-6 pb-10 flex flex-col items-center justify-center">
       <div className="flex items-center gap-7 justify-center mb-9">
         <Image
-          src={"/landing/adviciya_logo.svg"}
+          src={"/congratulations/adviciya_logo.svg"}
           width={111}
           height={78}
           title="Adviciya"
           alt="Adviciya logo"
         />
         <Image
-          src={"/landing/reviuai_logo.svg"}
+          src={"/congratulations/reviuai_logo.svg"}
           width={113}
           height={74}
           title="Reviu.ai"
@@ -69,7 +69,7 @@ export default function FooterSection() {
           className="flex items-center gap-2 text-2xl font-medium hover:underline focus:outline-none"
         >
           <Image
-            src={"/landing/phone.svg"}
+            src={"/congratulations/phone.svg"}
             width={20}
             height={20}
             alt="Phone"

@@ -5,7 +5,7 @@ export default function CtaBanner() {
     <section
       className="my-16 px-8 py-10 flex flex-col gap-7 justify-center lg:items-center"
       style={{
-        backgroundImage: "url(/landing/adviciya_banner.png)",
+        backgroundImage: "url(/congratulations/adviciya_banner.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

@@ -5,7 +5,7 @@ const reviewMethods = [
   {
     title: "NFC Card",
     description: "Tap and review instantly no apps, no hassle.",
-    icon: "/landing/nfc_card.svg",
+    icon: "/congratulations/nfc_card.svg",
     width: 41,
     height: 38,
   },
@@ -13,7 +13,7 @@ const reviewMethods = [
     title: "NFC Stand",
     description:
       "Place it on your counter or tables so customers can review on the spot.",
-    icon: "/landing/nfc_stand.svg",
+    icon: "/congratulations/nfc_stand.svg",
     width: 41,
     height: 41,
   },
@@ -21,7 +21,7 @@ const reviewMethods = [
     title: "E-Mail",
     description:
       "Reach your customers in their inbox with a simple review link.",
-    icon: "/landing/email.svg",
+    icon: "/congratulations/email.svg",
     width: 41,
     height: 38,
   },
@@ -29,7 +29,7 @@ const reviewMethods = [
     title: "WhatsApp Business API",
     description:
       "Send review requests directly to customers where they chat the most.",
-    icon: "/landing/whatsapp.svg",
+    icon: "/congratulations/whatsapp.svg",
     width: 36,
     height: 36,
   },
@@ -37,7 +37,7 @@ const reviewMethods = [
     title: "QR Code",
     description:
       "Scan anywhere — receipts, posters, or packaging — and share feedback in seconds.",
-    icon: "/landing/qr_code.svg",
+    icon: "/congratulations/qr_code.svg",
     width: 36,
     height: 51,
   },

@@ -6,19 +6,19 @@ const launches = [
     title: "ReviuAI",
     description:
       "ReviuAI delivers accurate unbiased and personalized reviews using AI and data driven insights helping users make smarter decisions",
-    src: "/landing/laptop_right.png",
+    src: "/congratulations/laptop_right.png",
   },
   {
     title: "LeadPoppers",
     description:
       "With the integration of AI, our latest technology will help you generate genuine B2B and B2C leads. Our finder traces emails from 3-point data – first name, last name, and company name.",
-    src: "/landing/laptop_left.png",
+    src: "/congratulations/laptop_left.png",
   },
   {
     title: "Digital Business Cards",
     description:
       "Create reliable, simple, and effective business cards in just 5 minutes with our NxtGen Digital Business Card platform.",
-    src: "/landing/holding_phone.png",
+    src: "/congratulations/holding_phone.png",
   },
 ];
 

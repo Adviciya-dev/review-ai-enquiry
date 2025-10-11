@@ -11,7 +11,7 @@ export default function ReviewsSection() {
   return (
     <section className="my-16 flex flex-col lg:flex-row items-center lg:justify-center gap-x-10">
       <Image
-        src={"/landing/reviews.png"}
+        src={"/congratulations/reviews.png"}
         className="w-full h-full lg:w-[800px]"
         width={500}
         height={392}
@@ -30,7 +30,7 @@ export default function ReviewsSection() {
           {items.map((item) => (
             <li className="flex items-start gap-3" key={item}>
               <Image
-                src={"/landing/star.svg"}
+                src={"/congratulations/star.svg"}
                 width={19}
                 height={17}
                 alt="star"

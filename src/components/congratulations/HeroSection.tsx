@@ -9,9 +9,9 @@ import "swiper/css/navigation";
 import { motion } from "framer-motion";
 
 const images = [
-  "/landing/banner3.png",
-  "/landing/banner1.png",
-  "/landing/banner2.png",
+  "/congratulations/banner3.png",
+  "/congratulations/banner1.png",
+  "/congratulations/banner2.png",
 ];
 
 const contents = [
