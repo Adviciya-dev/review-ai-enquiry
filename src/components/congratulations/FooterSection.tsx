@@ -3,35 +3,35 @@ import React from "react";
 
 const socials = [
   {
-    src: "landing/facebook.svg",
+    src: "/congratulations/facebook.svg",
     alt: "facebook",
     width: 15,
     height: 15,
     link: "https://www.facebook.com/adviciya",
   },
   {
-    src: "landing/instagram.svg",
+    src: "/congratulations/instagram.svg",
     alt: "instagram",
     width: 15,
     height: 15,
     link: "https://www.instagram.com/adviciya.solutions/",
   },
   {
-    src: "landing/linkedin.svg",
+    src: "/congratulations/linkedin.svg",
     alt: "linkedin",
     width: 13,
     height: 13,
     link: "https://www.linkedin.com/company/adviciya/",
   },
   // {
-  //   src: "landing/youtube.svg",
+  //   src: "/congratulations/youtube.svg",
   //   alt: "youtube",
   //   width: 16,
   //   height: 12,
   //   link: "",
   // },
   // {
-  //   src: "landing/telegram.svg",
+  //   src: "/congratulations/telegram.svg",
   //   alt: "telegram",
   //   width: 15,
   //   height: 13,
