@@ -101,7 +101,7 @@ const handleSubmit = async (
 
     // Build the full URL
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const url = `${apiUrl}/leads/public-lead-get?${params.toString()}`;
+    const url = `https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/leads/public-lead-get?businessName=test-business&location=calicut&whatsAppNo=9539429274&countryCode=+91&email=test@gmail.com&websiteUrl=www.google.com&tenantId=1 `;
 
     // Make the GET request
     const response = await fetch(url, {
@@ -217,45 +217,48 @@ const handleSubmit = async (
     fetchData();
   }, []);
 
-  // const handleLeadPost = async () => {
-  //   const body = {
-  //     businessName: "ABTESTC BUSINESS",
-  //     stage: "PENDING",
-  //     location: "new",
-  //     // categoryId: "2c05bca9-76ef-445c-b7fc-a9862654ac38",
-  //     // tenantId:1
-  //   };
+ /* The above code is a TypeScript React function that is meant to handle posting a lead to an API
+ endpoint. However, the function `handleLeadPost` is currently commented out, so it is not actively
+ being executed. */
+  const handleLeadPost = async () => {
+    const body = {
+      businessName: "ABTESTC BUSINESS",
+      stage: "PENDING",
+      location: "new",
+      // categoryId: "2c05bca9-76ef-445c-b7fc-a9862654ac38",
+      // tenantId:1
+    };
 
-  //   try {
-  //     const apiUrl = process.env.NEXT_PUBLIC_API_URL; // or your full URL
-  //     const response = await fetch(`${apiUrl}/leads`, {
-  //       method: "get",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         // add Authorization if needed
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify(body),
-  //     });
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL; // or your full URL
+      const response = await fetch(`${apiUrl}/leads`, {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          // add Authorization if needed
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
 
-  //     if (!response.ok) {
-  //       const error = await response.json();
-  //       throw new Error(error.message || "Failed to create lead");
-  //     }
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create lead");
+      }
 
-  //     const data = await response.json();
-  //     console.log("Lead posted successfully:", data);
-  //     toast.success("Lead posted successfully!");
-  //   } catch (error: unknown) {
-  //     if (error instanceof Error) {
-  //       console.error("Error posting lead:", error);
-  //       toast.error(error.message || "Failed to post lead");
-  //     } else {
-  //       console.error("Unknown error posting lead:", error);
-  //       toast.error("Failed to post lead");
-  //     }
-  //   }
-  // };
+      const data = await response.json();
+      console.log("Lead posted successfully:", data);
+      toast.success("Lead posted successfully!");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error posting lead:", error);
+        toast.error(error.message || "Failed to post lead");
+      } else {
+        console.error("Unknown error posting lead:", error);
+        toast.error("Failed to post lead");
+      }
+    }
+  };
 
   
 
