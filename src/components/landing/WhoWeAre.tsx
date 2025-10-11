@@ -37,12 +37,12 @@ export default function WhoWeAre() {
   return (
     <section className="my-16 px-8">
       {/* Who We Are Section */}
-      <div className="mb-10">
+      <div className="mb-10 lg:max-w-4xl lg:mx-auto">
         <h2 className="text-2xl font-medium mb-5 text-center italic">
           Who we are
         </h2>
 
-        <p className="text-[20px] leading-[39px] font-extralight text-justify">
+        <p className="text-[20px] leading-[39px] font-extralight text-justify lg:text-center">
           Adviciya is a creative solutions company specialising in brand
           consulting, design innovation, and technology & AI-driven strategies —
           helping you elevate your brand and achieve sustainable digital
@@ -55,11 +55,11 @@ export default function WhoWeAre() {
       {/* Services Section */}
       <div>
         <h2 className="text-2xl font-medium mb-5 text-center">
-          Innovative Solutions in Branding, Design, Technology & AI
-          Transformation
+          Innovative Solutions in <br className="hidden lg:block" /> Branding,
+          Design, Technology & AI Transformation
         </h2>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:max-w-4xl lg:mx-auto">
           {services.map((service, index) => (
             <div
               key={index}

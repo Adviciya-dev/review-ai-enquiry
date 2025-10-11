@@ -28,7 +28,7 @@ export default function NewLaunchesSection() {
       <h2 className="font-medium text-2xl text-center mb-9">
         Experience the future with our newest launch
       </h2>
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:max-w-4xl lg:mx-auto">
         {launches.map((launch) => (
           <div key={launch.title}>
             <Image

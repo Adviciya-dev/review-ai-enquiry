@@ -50,11 +50,11 @@ export default function HowToReviewSection() {
         How to Review{"\n"}Using ReviuAI
       </h2>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:max-w-[1450px] lg:flex flex-wrap lg:justify-center mx-auto">
         {reviewMethods.map((method) => (
           <div
             key={method.title}
-            className="text-center"
+            className="text-center lg:w-[465px] lg:min-h-full"
             style={{
               padding: "1px",
               borderRadius: "12px",
@@ -62,7 +62,7 @@ export default function HowToReviewSection() {
             }}
           >
             <div
-              className="p-5 flex gap-5 items-start bg-black"
+              className="p-5 flex gap-5 items-start bg-black lg:h-full"
               style={{ borderRadius: "10px" }}
             >
               <Image

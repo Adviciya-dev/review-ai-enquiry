@@ -3,7 +3,7 @@ import React from "react";
 export default function CtaBanner() {
   return (
     <section
-      className="my-16 px-8 py-10 flex flex-col gap-7 justify-center"
+      className="my-16 px-8 py-10 flex flex-col gap-7 justify-center lg:items-center"
       style={{
         backgroundImage: "url(/landing/adviciya_banner.png)",
         backgroundSize: "cover",
@@ -12,7 +12,7 @@ export default function CtaBanner() {
         minHeight: "300px",
       }}
     >
-      <p className="text-[32px] leading-[47px] font-medium">
+      <p className="text-[32px] leading-[47px] font-medium lg:max-w-3xl lg:mx-auto">
         Adviciya provides complete solutions for ensuring a strong digital
         presence for your brand.
       </p>

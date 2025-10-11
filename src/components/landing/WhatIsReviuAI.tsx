@@ -11,10 +11,8 @@ const features = [
 export default function WhatIsReviuAI() {
   return (
     <section className="my-14 px-8 flex flex-col items-center justify-center">
-      <div className="max-w-md mx-auto">
-        <h2 className="text-2xl font-medium mb-6 text-left italic">
-          What is ReviuAI?
-        </h2>
+      <div className="max-w-md lg:max-w-4xl lg:text-center mx-auto">
+        <h2 className="text-2xl font-medium mb-6 italic">What is ReviuAI?</h2>
 
         <p className="text-[20px] leading-[40px] font-extralight">
           ReviuAI is an AI-powered Google Review System that helps your business
