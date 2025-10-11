@@ -100,8 +100,9 @@ const handleSubmit = async (
     }
 
     // Build the full URL
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const url = `https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/leads/public-lead-get?businessName=test-business&location=calicut&whatsAppNo=9539429274&countryCode=+91&email=test@gmail.com&websiteUrl=www.google.com&tenantId=1 `;
+    const apiUrl = 'https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/';
+    // https://ucewteteth.execute-api.ap-south-1.amazonaws.com/dev/leads/public-lead-get?businessName=test-business&location=calicut&whatsAppNo=9539429274&countryCode=+91&email=test@gmail.com&websiteUrl=www.google.com&tenantId=1
+    const url = `${apiUrl}/leads/public-lead-get?${params.toString()}`;
 
     // Make the GET request
     const response = await fetch(url, {
@@ -117,8 +118,7 @@ const handleSubmit = async (
     }
 
     const data = await response.json();
-    console.log("Lead fetched successfully:", data);
-    toast.success("Lead fetched successfully!");
+    toast.success("Lead Submitted Successfully!");
 
     resetForm();
   } catch (error: unknown) {
