@@ -1,7 +1,6 @@
 import React from "react";
 import HeroSection from "@/components/landing/HeroSection";
 import WhatIsReviuAI from "@/components/landing/WhatIsReviuAI";
-import FeaturesSection from "@/components/landing/FeaturesSection";
 import ReviewsSection from "@/components/landing/ReviewsSection";
 import OnlinePresenceSection from "@/components/landing/OnlinePresenceSection";
 import HowToReviewSection from "@/components/landing/HowToReviewSection";
@@ -14,11 +13,10 @@ import Header from "@/components/landing/Header";
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen relative bg-black">
+    <main className="min-h-screen relative bg-black text-white">
       <Header />
       <HeroSection />
       <WhatIsReviuAI />
-      <FeaturesSection />
       <ReviewsSection />
       <OnlinePresenceSection />
       <HowToReviewSection />
