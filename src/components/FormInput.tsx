@@ -85,7 +85,7 @@ const FormInput: React.FC<Props> = ({
           type={type}
           placeholder={placeholder}
           className={`
-                        w-full px-3 py-2 border border-[#6F4444] bg-black text-white rounded-md h-[42px] focus:outline-none text-[16px] bold-400
+                        w-full px-3 py-2 border border-[#6F4444] bg-black rounded-md h-[42px] focus:outline-none text-[16px] bold-400 text-white
                          placeholder-[#646060] ${
                            isError ? "border-red-500" : "border-[#6F4444] "
                          }`}
