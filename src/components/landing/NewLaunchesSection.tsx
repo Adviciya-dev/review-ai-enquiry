@@ -45,9 +45,13 @@ export default function NewLaunchesSection() {
             <p className="text-base mb-6 text-[#A7A7A7] font-normal">
               {launch.description}
             </p>
-            <button className="text-base font-manrope cursor-pointer font-semibold">
+            <a
+              href="http://reviuai.com/"
+              target="_blank"
+              className="text-base font-manrope cursor-pointer font-semibold block"
+            >
               Know More
-            </button>
+            </a>
           </div>
         ))}
       </div>

@@ -17,9 +17,13 @@ export default function CtaBanner() {
         presence for your brand.
       </p>
 
-      <button className="bg-[#CA3737] text-white w-max px-6 py-3 rounded-full text-[10px] font-medium hover:bg-red-700 transition-colors block">
+      <a
+        href="http://reviuai.com/"
+        target="_blank"
+        className="bg-[#CA3737] text-white w-max px-6 py-3 rounded-full text-[10px] font-medium hover:bg-red-700 transition-colors block"
+      >
         Know More
-      </button>
+      </a>
     </section>
   );
 }

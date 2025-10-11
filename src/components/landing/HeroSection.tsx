@@ -87,15 +87,17 @@ export default function HeroSection() {
         </h1>
 
         {contents[activeIndex].button && (
-          <button
-            className="py-3 px-9 w-max hover:opacity-80 cursor-pointer rounded-full transition-all duration-300 mt-2"
+          <a
+            href="http://reviuai.com/"
+            target="_blank"
+            className="py-3 px-9 w-max hover:opacity-80 cursor-pointer rounded-full transition-all duration-300 mt-2 block"
             style={{
               backgroundColor: contents[activeIndex].button.bgColor,
               boxShadow: "2px 2px 4px rgba(0,0,0,0.5)",
             }}
           >
             {contents[activeIndex].button.text}
-          </button>
+          </a>
         )}
 
         {contents[activeIndex].subtext && (

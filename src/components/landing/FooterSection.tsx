@@ -23,20 +23,20 @@ const socials = [
     height: 13,
     link: "https://www.linkedin.com/company/adviciya/",
   },
-  {
-    src: "landing/youtube.svg",
-    alt: "youtube",
-    width: 16,
-    height: 12,
-    link: "",
-  },
-  {
-    src: "landing/telegram.svg",
-    alt: "telegram",
-    width: 15,
-    height: 13,
-    link: "",
-  },
+  // {
+  //   src: "landing/youtube.svg",
+  //   alt: "youtube",
+  //   width: 16,
+  //   height: 12,
+  //   link: "",
+  // },
+  // {
+  //   src: "landing/telegram.svg",
+  //   alt: "telegram",
+  //   width: 15,
+  //   height: 13,
+  //   link: "",
+  // },
 ];
 
 export default function FooterSection() {
@@ -90,7 +90,7 @@ export default function FooterSection() {
           </a>
           <span>|</span>
           <a
-            href="https://www.reviuai.com"
+            href="https://reviuai.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
