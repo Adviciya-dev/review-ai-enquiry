@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
-import FormComponent from "./FormComponent";
+import FormComponent from "./HomePage/page";
+
 
 
 export const dynamic = "force-dynamic"; // disables prerendering
@@ -9,7 +10,6 @@ export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <FormComponent />
-      {/* <CongratulationsPage/> */}
     </Suspense>
   );
 }
