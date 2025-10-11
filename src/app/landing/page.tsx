@@ -2,9 +2,8 @@ import React from "react";
 import HeroSection from "@/components/landing/HeroSection";
 import WhatIsReviuAI from "@/components/landing/WhatIsReviuAI";
 import ReviewsSection from "@/components/landing/ReviewsSection";
-import OnlinePresenceSection from "@/components/landing/OnlinePresenceSection";
 import HowToReviewSection from "@/components/landing/HowToReviewSection";
-import AdviciyaSolutions from "@/components/landing/AdviciyaSolutions";
+import CtaBanner from "@/components/landing/CtaBanner";
 import WhoWeAre from "@/components/landing/WhoWeAre";
 import NewLaunchesSection from "@/components/landing/NewLaunchesSection";
 import ClientsSection from "@/components/landing/ClientsSection";
@@ -18,9 +17,8 @@ export default function LandingPage() {
       <HeroSection />
       <WhatIsReviuAI />
       <ReviewsSection />
-      <OnlinePresenceSection />
       <HowToReviewSection />
-      <AdviciyaSolutions />
+      <CtaBanner />
       <WhoWeAre />
       <NewLaunchesSection />
       <ClientsSection />
