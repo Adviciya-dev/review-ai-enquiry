@@ -130,105 +130,10 @@ export default function FormComponent() {
     }
   };
 
-  //    const FetchLeads = async (params: {}, id?: string | null) => {
-  //     const endpoint = id ? `leads/${id}` : "leads";
-  //     const response = await apiRequest(
-  //          "https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/",
-  //         'get',
-  //         endpoint,
-  //         null,
-  //         params
-  //     );
-
-  //     return response?.data || [];
-  // };
-
-  //   const {
-  //   data: LeadsList,
-  //   isLoading,
-
-  // } = useCustomQuery(["LeadsList"], FetchLeads,);
-
-  interface Question {
-    id: number;
-    question: string;
-    // add other fields returned by the API
-  }
-
-  interface Lead {
-    id: number;
-    name: string;
-    phone: string;
-    email: string;
-    // add other fields returned by the API
-  }
-
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [leads, setLeads] = useState<Lead[]>([]);
-
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [questionsRes, leadsRes] = await Promise.all([
-          fetch(
-            "https://qg1c9n6uv2.execute-api.ap-south-1.amazonaws.com/dev/delivery-questions",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({}), // include request body if required
-            }
-          ),
-          fetch(
-            "https://moc5o26tkyp5ichgmskq5uoqwu0pscbk.lambda-url.ap-south-1.on.aws/leads",
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, // ✅ pass JWT token here
-              },
-            }
-          ),
-        ]);
-
-        if (!questionsRes.ok || !leadsRes.ok) {
-          throw new Error("Failed to fetch one or both APIs");
-
-        }
-      }
+  
 
 
 
-      // Make the GET request
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`, // optional if required
-        },
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to create lead");
-      }
-
-      const data = await response.json();
-      toast.success("Lead Submitted Successfully!");
-
-      resetForm();
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error fetching lead:", error);
-        toast.error(error.message || "Failed to fetch lead");
-      } else {
-        console.error("Unknown error fetching lead:", error);
-        toast.error("Failed to fetch lead");
-      }
-    }
-  };
 
   return (
     <main className="flex flex-col min-h-screen bg-gray-50">
