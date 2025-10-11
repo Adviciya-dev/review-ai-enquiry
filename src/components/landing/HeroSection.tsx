@@ -6,16 +6,21 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 const images = [
+  "/landing/banner3.png",
   "/landing/banner1.png",
   "/landing/banner2.png",
-  "/landing/banner3.png",
 ];
 
 const contents = [
+  {
+    title: "Congratulations",
+    button: null,
+    subtext:
+      "Thank you for choosing ReviuAI,\nWe will notify via WhatsApp & Email once the account is ready",
+  },
   {
     title: "Smarter Reviews,\nStronger Business",
     button: { text: "Know More", bgColor: "#322558" },
@@ -26,19 +31,13 @@ const contents = [
     button: { text: "Know More", bgColor: "#CA3737" },
     subtext: null,
   },
-  {
-    title: "Congratulations",
-    button: null,
-    subtext:
-      "Thank you for choosing ReviuAI,\nWe will notify via WhatsApp & Email once the account is ready",
-  },
 ];
 
 export default function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const positionClass = `px-8 pt-8 md:absolute md:px-0 md:pt-0 md:top-1/2 md:-translate-y-1/2 z-40 ${
-    activeIndex === 2
+    activeIndex === 0
       ? "md:left-1/2 md:-translate-x-1/2 md:max-w-[900px]"
       : "md:left-[60%] md:max-w-[550px]"
   }`;
@@ -76,9 +75,9 @@ export default function HeroSection() {
       >
         <h1
           className={`text-[32px] lg:text-[56px] leading-none italic font-medium mb-4 text-white ${
-            activeIndex === 0
+            activeIndex === 1
               ? "text-[#BFBAE6]"
-              : activeIndex === 2
+              : activeIndex === 0
               ? "text-center"
               : "text-left"
           }`}
