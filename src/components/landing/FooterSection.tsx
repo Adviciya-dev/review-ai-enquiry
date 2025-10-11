@@ -81,11 +81,19 @@ export default function FooterSection() {
       <div className="text-center mb-10 mt-5">
         {/* Websites */}
         <div className="flex items-center gap-4 font-medium text-[10px]">
-          <a href="www.adviciya.com" target="_blank">
+          <a
+            href="https://www.adviciya.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             www.adviciya.com
           </a>
           <span>|</span>
-          <a href="www.reviuai.com" target="_blank">
+          <a
+            href="https://www.reviuai.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {" "}
             www.reviuai.com
           </a>

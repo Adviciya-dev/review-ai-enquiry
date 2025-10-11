@@ -46,7 +46,7 @@ export default function HeroSection() {
     <section className="relative">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         loop
         onActiveIndexChange={(swiper) => setActiveIndex(swiper.realIndex)}
